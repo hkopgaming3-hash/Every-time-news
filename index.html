@@ -4,62 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Every Time News | Premium Portal</title>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --red: #ed1c24; --black: #1a1a1a; --gray: #f8f9fa; }
-        
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Roboto', sans-serif; background: #fff; color: #333; line-height: 1.5; }
-
-        /* Mobile Header */
-        header { 
-            border-bottom: 3px solid var(--black); 
-            padding: 15px; 
-            text-align: center; 
-            position: sticky; 
-            top: 0; 
-            background: #fff; 
-            z-index: 100;
-        }
+        header { border-bottom: 3px solid var(--black); padding: 15px; text-align: center; position: sticky; top: 0; background: #fff; z-index: 100; }
         .logo { font-family: 'Lora', serif; font-size: 24px; font-weight: bold; text-transform: uppercase; }
         .logo span { color: var(--red); }
-
-        /* Category Bar (Like Screenshot) */
-        .nav-bar {
-            display: flex;
-            overflow-x: auto;
-            padding: 12px 5px;
-            gap: 15px;
-            border-bottom: 1px solid #eee;
-            background: #fff;
-            scrollbar-width: none;
-        }
+        .nav-bar { display: flex; overflow-x: auto; padding: 12px 5px; gap: 15px; border-bottom: 1px solid #eee; background: #fff; scrollbar-width: none; }
         .nav-bar::-webkit-scrollbar { display: none; }
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-width: 65px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .icon-circle {
-            width: 42px; height: 42px;
-            background: var(--gray);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            margin-bottom: 4px;
-            border: 2px solid transparent;
-        }
+        .nav-item { display: flex; flex-direction: column; align-items: center; min-width: 65px; cursor: pointer; transition: 0.3s; }
+        .icon-circle { width: 42px; height: 42px; background: var(--gray); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 4px; border: 2px solid transparent; }
         .nav-item.active .icon-circle { border-color: var(--red); background: #fff; color: var(--red); }
         .nav-item span { font-size: 10px; font-weight: bold; text-transform: uppercase; color: #666; }
         .nav-item.active span { color: var(--red); }
-
-        /* News Feed */
         .main-container { max-width: 600px; margin: auto; padding: 15px; }
         .post-card { margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
         .badge { color: var(--red); font-weight: bold; font-size: 11px; text-transform: uppercase; }
@@ -67,14 +26,11 @@
         .post-img { width: 100%; border-radius: 8px; margin: 10px 0; display: block; background: #eee; }
         .post-desc { color: #444; font-size: 15px; white-space: pre-wrap; }
         .post-time { font-size: 11px; color: #999; margin-top: 10px; }
-
-        /* Admin Modal */
         .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000; justify-content:center; align-items:center; }
         .modal-content { background:#fff; padding:20px; width:90%; max-width:400px; border-radius:12px; max-height: 90vh; overflow-y: auto; }
         input, textarea, select { width:100%; padding:12px; margin:8px 0; border:1px solid #ddd; border-radius:6px; font-family: inherit; }
         .btn-pub { background:var(--red); color:#fff; border:none; padding:15px; width:100%; border-radius:6px; font-weight:bold; cursor:pointer; font-size:16px; }
         .btn-pub:disabled { background: #ccc; }
-
         footer { text-align: center; padding: 30px; background: #f4f4f4; margin-top: 20px; font-size: 12px; }
         .admin-btn { color: #aaa; text-decoration: none; display: block; margin-top: 10px; }
     </style>
@@ -102,7 +58,6 @@
     <a href="javascript:void(0)" class="admin-btn" onclick="openModal()">Admin Login</a>
 </footer>
 
-<!-- Admin Panel -->
 <div id="adminModal" class="modal">
     <div class="modal-content">
         <h3 id="formTitle">Admin Access</h3>
@@ -130,8 +85,8 @@
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
 
-    // Firebase Config (Singapore Region URL Included)
     const firebaseConfig = {
         apiKey: "AIzaSyCMl-WRIcl4kNRAtc-N18sWgSsy0Ly0KoI",
         authDomain: "every-time-news-486a5.firebaseapp.com",
@@ -139,16 +94,17 @@
         databaseURL: "https://every-time-news-486a5-default-rtdb.asia-southeast1.firebasedatabase.app",
         storageBucket: "every-time-news-486a5.firebasestorage.app",
         messagingSenderId: "703171090056",
-        appId: "1:703171090056:web:90b4029618a5236310313d"
+        appId: "1:703171090056:web:90b4029618a5236310313d",
+        measurementId: "G-JRDSL2464F"
     };
 
     const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app); // Analytics Setup Done
     const db = getDatabase(app);
     const postsRef = ref(db, 'posts/');
 
     let allPosts = [];
 
-    // --- Fetch News ---
     onValue(postsRef, (snap) => {
         const data = snap.val();
         if (data) {
@@ -174,7 +130,6 @@
         });
     }
 
-    // --- Image Compression & Publish ---
     window.startPublish = async () => {
         const t = document.getElementById('pTitle').value;
         const c = document.getElementById('pDesc').value;
@@ -183,10 +138,8 @@
         const btn = document.getElementById('pubBtn');
 
         if(!t || !c || !file) return alert("Please fill everything!");
-
         btn.disabled = true; btn.innerText = "Compressing & Uploading...";
 
-        // Compress Image using Canvas
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = (ev) => {
@@ -194,15 +147,12 @@
             img.src = ev.target.result;
             img.onload = async () => {
                 const canvas = document.createElement('canvas');
-                const MAX_WIDTH = 600; // Resize to 600px width
+                const MAX_WIDTH = 600;
                 const scaleSize = MAX_WIDTH / img.width;
                 canvas.width = MAX_WIDTH;
                 canvas.height = img.height * scaleSize;
-
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                
-                // Convert to Low Quality Base64
                 const base64 = canvas.toDataURL('image/jpeg', 0.6); 
 
                 try {
@@ -220,7 +170,6 @@
         };
     };
 
-    // --- UI Logic ---
     window.filterData = (c, el) => {
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
         el.classList.add('active');
