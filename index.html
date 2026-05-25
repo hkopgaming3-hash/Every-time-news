@@ -174,7 +174,7 @@
     window.filterData = (c, el) => {
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
         el.classList.add('active');
-        render(c === 'All' ? allPosts : allPosts.filter(p => p.category === c));
+         render(c === 'All' ? allPosts : allPosts.filter(p => p.category === c));
     };
 
     window.openModal = () => document.getElementById('adminModal').style.display = 'flex';
