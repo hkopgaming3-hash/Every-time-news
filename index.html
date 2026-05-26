@@ -89,6 +89,8 @@
             <label style="font-size:11px; color:var(--red);">Select Photo (Compressed automatically)</label>
             <input type="file" id="pImg" accept="image/*">
             <textarea id="pDesc" rows="5" placeholder="Full Details..."></textarea>
+            <input type="text" id="pTags" placeholder="Tags daalein (comma se separate karein: breaking, tech)">
+            
             <button class="btn-pub" id="pubBtn" onclick="startPublish()">Publish Post</button>
         </div>
         <button onclick="closeModal()" style="margin-top:10px; border:none; background:none; width:100%; color:#999;">Close</button>
@@ -132,15 +134,22 @@
         const feed = document.getElementById('newsFeed');
         feed.innerHTML = "";
         data.forEach(p => {
-            feed.innerHTML += `
-                <div class="post-card">
-                    <span class="badge">${p.category}</span>
-                    <h2 class="post-title">${p.title}</h2>
-                    ${p.img ? `<img src="${p.img}" class="post-img">` : ''}
-                    <p class="post-desc">${p.content}</p>
-                    <div class="post-time">${p.date}</div>
-                </div>`;
-        });
+    let tHTML = '';
+    if(p.tags && Array.isArray(p.tags)) {
+        tHTML = `<div style="display:flex; flex-wrap:wrap; gap:5px; margin-top:8px;">` + p.tags.map(t => `<span style="background:#f1f1f1; color:#555; font-size:11px; padding:3px 8px; border-radius:4px; font-weight:bold;">#${t}</span>`).join('') + `</div>`;
+    }
+
+    feed.innerHTML += `
+        <div class="post-card">
+            <span class="badge">${p.category}</span>
+            <h2 class="post-title">${p.title}</h2>
+            ${p.img ? `<img src="${p.img}" class="post-img">` : ''}
+            <p class="post-desc">${p.content}</p>
+            ${tHTML}
+            <div class="post-time">${p.date}</div>
+        </div>`;
+});
+        
     }
 
     window.startPublish = async () => {
@@ -149,6 +158,9 @@
         const cat = document.getElementById('pCat').value;
         const file = document.getElementById('pImg').files[0];
         const btn = document.getElementById('pubBtn');
+        const tagsInput = document.getElementById('pTags').value;
+        const tagsArray = tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag !== "");
+        
 
         if(!t || !c || !file) return alert("Please fill everything!");
         btn.disabled = true; btn.innerText = "Compressing & Uploading...";
@@ -170,9 +182,12 @@
 
                 try {
                     await push(postsRef, {
-                        title: t, content: c, category: cat, img: base64,
-                        passCheck: "Admin@123",
-                        date: new Date().toLocaleString('en-IN', {day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit'})
+                        
+                 title: t, content: c, category: cat, img: base64,
+                 tags: tagsArray, 
+                 passCheck: "Admin@123",
+                 date: new Date().toLocaleString('en-IN', {day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit'})
+                        
                     });
                     alert("Khabar Publish Ho Gayi!");
                     location.reload();
