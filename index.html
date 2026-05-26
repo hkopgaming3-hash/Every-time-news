@@ -171,6 +171,7 @@
                 try {
                     await push(postsRef, {
                         title: t, content: c, category: cat, img: base64,
+                        passCheck: "Admin@123",
                         date: new Date().toLocaleString('en-IN', {day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit'})
                     });
                     alert("Khabar Publish Ho Gayi!");
