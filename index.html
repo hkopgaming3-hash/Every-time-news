@@ -133,8 +133,6 @@
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app); 
     const db = getDatabase(app);
-    
-    // SPEED FIX 1: Sirf aakhri 20 khabrein hi load karega, poora database nahi uthayega
     const postsRef = query(ref(db, 'posts/'), limitToLast(20));
 
     let allPosts = [];
@@ -153,7 +151,6 @@
         const feed = document.getElementById('newsFeed');
         feed.innerHTML = "";
         data.forEach((p, index) => {
-            // SPEED FIX 2: loading="lazy" lagaya hai taaki images scroll karne par hi load hon
             feed.innerHTML += `
             <a href="javascript:void(0)" onclick="viewDetails(${index})" class="post-card">
                 <div class="post-card-text">
@@ -170,6 +167,7 @@
         });
     }
 
+    // BACK BUTTON MECHANICS HERE
     window.viewDetails = (index) => {
         const p = allPosts[index];
         let tHTML = '';
@@ -184,12 +182,30 @@
             ${p.img ? `<img src="${p.img}" class="full-news-img">` : ''}
             <p class="full-news-desc">${p.content}</p>
             ${tHTML}
-            <button onclick="closeDetailsModal()" style="margin-top:20px; border:none; background:var(--red); color:#fff; padding:12px; width:100%; border-radius:6px; font-weight:bold; cursor:pointer; font-size:16px;">Close Article</button>
+            <button onclick="closeDetailsModal(true)" style="margin-top:20px; border:none; background:var(--red); color:#fff; padding:12px; width:100%; border-radius:6px; font-weight:bold; cursor:pointer; font-size:16px;">Close Article</button>
         `;
         document.getElementById('detailsModal').style.display = 'flex';
+        
+        // Popup khulte hi browser history me state push karo
+        history.pushState({ modalOpen: true }, "");
     };
 
-    window.closeDetailsModal = () => document.getElementById('detailsModal').style.display = 'none';
+    window.closeDetailsModal = (clickedCloseButton = false) => {
+        document.getElementById('detailsModal').style.display = 'none';
+        // Agar user ne "Close Article" button daba kar band kiya hai, toh browser history saaf karo
+        if (clickedCloseButton && history.state && history.state.modalOpen) {
+            history.back();
+        }
+    };
+
+    // Jab user mobile ka hardware back button dabayega
+    window.addEventListener('popstate', (event) => {
+        const modal = document.getElementById('detailsModal');
+        if (modal.style.display === 'flex') {
+            // Agar popup khula hai toh sirf use band karo, page se bahar mat jao
+            closeDetailsModal(false);
+        }
+    });
 
     window.startPublish = async () => {
         const t = document.getElementById('pTitle').value;
@@ -211,7 +227,6 @@
             img.src = ev.target.result;
             img.onload = async () => {
                 const canvas = document.createElement('canvas');
-                // SPEED FIX 3: Upload hone wali photo ka size aur chota kar diya (450px width aur 0.4 quality) taaki database par load na pade
                 const MAX_WIDTH = 450;
                 const scaleSize = MAX_WIDTH / img.width;
                 canvas.width = MAX_WIDTH;
@@ -221,7 +236,6 @@
                 const base64 = canvas.toDataURL('image/jpeg', 0.4); 
 
                 try {
-                    // Alag se database push reference banaya kyunki query directly mutable nahi hoti
                     const directPostsRef = ref(db, 'posts/');
                     await push(directPostsRef, {
                         title: t, content: c, category: cat, img: base64,
