@@ -18,6 +18,7 @@
         .icon-circle { width: 42px; height: 42px; background: var(--gray); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 4px; border: 2px solid transparent; }
         .nav-item.active .icon-circle { border-color: var(--red); background: #fff; color: var(--red); }
         .nav-item span { font-size: 10px; font-weight: bold; text-transform: uppercase; color: #666; }
+        
         /* Naya Card Layout Cream Background ke Sath */
         .post-card {
             display: flex;
@@ -85,37 +86,25 @@
     </style>
     <meta name="google-site-verification" content="j2YMUNBvZiFwzX6xFNOWjiMHB4xN1dn3psYI3mfCWzw" />
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FJB41QL028"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-FJB41QL028');
-</script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-FJB41QL028');
+    </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1593220857123669" crossorigin="anonymous"></script>
     <script src="https://pl29555568.effectivecpmnetwork.com/9d/36/49/9d36490f6c6b5114a55ea8f36102692b.js"></script>
     <script src="https://pl29555569.effectivecpmnetwork.com/45/b4/c9/45b4c95119480ca64af19d48ef2e7e88.js"></script>
-    
 </head>
 <body>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1593220857123669"
-     crossorigin="anonymous"></script>
-<!-- Article_Middle -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-1593220857123669"
-     data-ad-slot="5029323798"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+
 <header>
     <div class="logo" style="display: flex; align-items: center; gap: 10px;">
         <img src="1000119873.png" alt="Logo" style="height: 40px; width: auto; object-fit: contain;">
         EVERY TIME <span>NEWS</span>
     </div>
 </header>  
+
 <div class="nav-bar">
     <div class="nav-item active" onclick="filterData('All', this)"><div class="icon-circle">🏠</div><span>All</span></div>
     <div class="nav-item" onclick="filterData('Today', this)"><div class="icon-circle">📅</div><span>Today</span></div>
@@ -123,9 +112,11 @@
     <div class="nav-item" onclick="filterData('Gaming', this)"><div class="icon-circle">🎮</div><span>Gaming</span></div>
     <div class="nav-item" onclick="filterData('Stock', this)"><div class="icon-circle">📈</div><span>Stock</span></div>
 </div>
+
 <div class="main-container" id="newsFeed">
     <p style="text-align:center; padding:50px;">loading...</p>
 </div>
+
 <div id="detailsModal" class="modal"><div class="modal-content" id="detailsContent"></div></div>
     
 <footer>
@@ -176,7 +167,7 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app); // Analytics Setup Done
+    const analytics = getAnalytics(app); 
     const db = getDatabase(app);
     const postsRef = ref(db, 'posts/');
 
@@ -192,7 +183,7 @@
         }
     });
 
-        function render(data) {
+    function render(data) {
         const feed = document.getElementById('newsFeed');
         feed.innerHTML = "";
         data.forEach((p, index) => {
@@ -212,7 +203,6 @@
         });
     }
 
-    // Naya Function: Click karne par poori detail popup me dikhane ke liye
     window.viewDetails = (index) => {
         const p = allPosts[index];
         let tHTML = '';
@@ -233,7 +223,6 @@
     };
 
     window.closeDetailsModal = () => document.getElementById('detailsModal').style.display = 'none';
-    
 
     window.startPublish = async () => {
         const t = document.getElementById('pTitle').value;
@@ -265,12 +254,10 @@
 
                 try {
                     await push(postsRef, {
-                        
-                 title: t, content: c, category: cat, img: base64,
-                 tags: tagsArray, 
-                 passCheck: "Admin@123",
-                 date: new Date().toLocaleString('en-IN', {day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit'})
-                        
+                        title: t, content: c, category: cat, img: base64,
+                        tags: tagsArray, 
+                        passCheck: "Admin@123",
+                        date: new Date().toLocaleString('en-IN', {day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit'})
                     });
                     alert("Khabar Publish Ho Gayi!");
                     location.reload();
@@ -299,7 +286,8 @@
     };
 </script>
 
-<script type="text/javascript"> var infolinks_pid = 3445705; var infolinks_wsid = 0; </script> <script type="text/javascript" src="//resources.infolinks.com/js/infolinks_main.js"></script>
+<script type="text/javascript"> var infolinks_pid = 3445705; var infolinks_wsid = 0; </script> 
+<script type="text/javascript" src="//resources.infolinks.com/js/infolinks_main.js"></script>
     
 </body>
 </html>
