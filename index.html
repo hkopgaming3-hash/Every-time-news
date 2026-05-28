@@ -19,7 +19,6 @@
         .nav-item.active .icon-circle { border-color: var(--red); background: #fff; color: var(--red); }
         .nav-item span { font-size: 10px; font-weight: bold; text-transform: uppercase; color: #666; }
         
-        /* Naya Card Layout Cream Background ke Sath */
         .post-card {
             display: flex;
             justify-content: space-between;
@@ -32,48 +31,13 @@
             text-decoration: none;
             color: #111;
         }
-
-        .post-card-text {
-            flex: 1;
-            padding-right: 15px;
-        }
-
-        .badge {
-            font-size: 11px;
-            text-transform: uppercase;
-            color: var(--red);
-            font-weight: bold;
-            margin-bottom: 4px;
-            display: inline-block;
-        }
-
-        .post-title {
-            font-family: 'Lora', serif;
-            font-size: 16px;
-            font-weight: 600;
-            line-height: 1.4;
-            color: #111;
-            margin: 4px 0 8px 0;
-        }
-
-        .post-time {
-            font-size: 12px;
-            color: #777;
-        }
-
-        .post-img-box {
-            flex-shrink: 0;
-        }
-
-        .post-img {
-            width: 100px;
-            height: 70px;
-            object-fit: cover;
-            border-radius: 4px;
-            display: block;
-        }
+        .post-card-text { flex: 1; padding-right: 15px; }
+        .badge { font-size: 11px; text-transform: uppercase; color: var(--red); font-weight: bold; margin-bottom: 4px; display: inline-block; }
+        .post-title { font-family: 'Lora', serif; font-size: 16px; font-weight: 600; line-height: 1.4; color: #111; margin: 4px 0 8px 0; }
+        .post-time { font-size: 12px; color: #777; }
+        .post-img-box { flex-shrink: 0; }
+        .post-img { width: 100px; height: 70px; object-fit: cover; border-radius: 4px; display: block; content-visibility: auto; }
         
-        /* Full News Details Modal Styles */
         .full-news-img { width: 100%; border-radius: 8px; margin: 12px 0; display: block; }
         .full-news-desc { font-size: 15px; color: #444; white-space: pre-wrap; line-height: 1.6; margin-top: 10px; }
         .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000; justify-content:center; align-items:center; }
@@ -152,7 +116,7 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    import { getDatabase, ref, push, onValue, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
 
     const firebaseConfig = {
@@ -169,7 +133,9 @@
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app); 
     const db = getDatabase(app);
-    const postsRef = ref(db, 'posts/');
+    
+    // SPEED FIX 1: Sirf aakhri 20 khabrein hi load karega, poora database nahi uthayega
+    const postsRef = query(ref(db, 'posts/'), limitToLast(20));
 
     let allPosts = [];
 
@@ -187,6 +153,7 @@
         const feed = document.getElementById('newsFeed');
         feed.innerHTML = "";
         data.forEach((p, index) => {
+            // SPEED FIX 2: loading="lazy" lagaya hai taaki images scroll karne par hi load hon
             feed.innerHTML += `
             <a href="javascript:void(0)" onclick="viewDetails(${index})" class="post-card">
                 <div class="post-card-text">
@@ -196,7 +163,7 @@
                 </div>
                 ${p.img ? `
                 <div class="post-img-box">
-                    <img src="${p.img}" class="post-img">
+                    <img src="${p.img}" class="post-img" loading="lazy">
                 </div>
                 ` : ''}
             </a>`;
@@ -244,16 +211,19 @@
             img.src = ev.target.result;
             img.onload = async () => {
                 const canvas = document.createElement('canvas');
-                const MAX_WIDTH = 600;
+                // SPEED FIX 3: Upload hone wali photo ka size aur chota kar diya (450px width aur 0.4 quality) taaki database par load na pade
+                const MAX_WIDTH = 450;
                 const scaleSize = MAX_WIDTH / img.width;
                 canvas.width = MAX_WIDTH;
                 canvas.height = img.height * scaleSize;
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                const base64 = canvas.toDataURL('image/jpeg', 0.6); 
+                const base64 = canvas.toDataURL('image/jpeg', 0.4); 
 
                 try {
-                    await push(postsRef, {
+                    // Alag se database push reference banaya kyunki query directly mutable nahi hoti
+                    const directPostsRef = ref(db, 'posts/');
+                    await push(directPostsRef, {
                         title: t, content: c, category: cat, img: base64,
                         tags: tagsArray, 
                         passCheck: "Admin@123",
