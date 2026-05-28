@@ -150,9 +150,10 @@
     function render(data) {
         const feed = document.getElementById('newsFeed');
         feed.innerHTML = "";
-        data.forEach((p, index) => {
+        data.forEach((p) => {
+            // FIX: viewDetails me index ki jagah Firebase ki unique ID string bhej rahe hain
             feed.innerHTML += `
-            <a href="javascript:void(0)" onclick="viewDetails(${index})" class="post-card">
+            <a href="javascript:void(0)" onclick="viewDetails('${p.id}')" class="post-card">
                 <div class="post-card-text">
                     ${p.category ? `<span class="badge">${p.category}</span>` : ''}
                     <h2 class="post-title">${p.title}</h2>
@@ -167,9 +168,11 @@
         });
     }
 
-    // BACK BUTTON MECHANICS HERE
-    window.viewDetails = (index) => {
-        const p = allPosts[index];
+    // FIX: Unique ID se post search karna taaki galat post na khule
+    window.viewDetails = (postId) => {
+        const p = allPosts.find(item => item.id === postId);
+        if(!p) return;
+
         let tHTML = '';
         if(p.tags && Array.isArray(p.tags)) {
             tHTML = `<div style="display:flex; flex-wrap:wrap; gap:5px; margin-top:12px;">` + p.tags.map(t => `<span style="background:#f1f1f1; color:#555; font-size:11px; padding:3px 8px; border-radius:4px; font-weight:bold;">#${t}</span>`).join('') + `</div>`;
@@ -186,23 +189,21 @@
         `;
         document.getElementById('detailsModal').style.display = 'flex';
         
-        // Popup khulte hi browser history me state push karo
+        // Push state taaki hardware back button track ho sake
         history.pushState({ modalOpen: true }, "");
     };
 
     window.closeDetailsModal = (clickedCloseButton = false) => {
         document.getElementById('detailsModal').style.display = 'none';
-        // Agar user ne "Close Article" button daba kar band kiya hai, toh browser history saaf karo
         if (clickedCloseButton && history.state && history.state.modalOpen) {
             history.back();
         }
     };
 
-    // Jab user mobile ka hardware back button dabayega
+    // Hardware back key dabaane par sirf modal close hoga
     window.addEventListener('popstate', (event) => {
         const modal = document.getElementById('detailsModal');
-        if (modal.style.display === 'flex') {
-            // Agar popup khula hai toh sirf use band karo, page se bahar mat jao
+        if (modal && modal.style.display === 'flex') {
             closeDetailsModal(false);
         }
     });
