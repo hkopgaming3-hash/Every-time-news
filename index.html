@@ -110,7 +110,6 @@
             <input type="text" id="pTags" placeholder="Tags daalein (comma se separate karein: breaking, tech)">
             <input type="url" id="pLink" placeholder="Link daalein (Optional)" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
             
-            
             <button class="btn-pub" id="pubBtn" onclick="startPublish()">Publish Post</button>
         </div>
         <button onclick="closeModal()" style="margin-top:10px; border:none; background:none; width:100%; color:#999;">Close</button>
@@ -154,7 +153,6 @@
         const feed = document.getElementById('newsFeed');
         feed.innerHTML = "";
         data.forEach((p) => {
-            // FIX: viewDetails me index ki jagah Firebase ki unique ID string bhej rahe hain
             feed.innerHTML += `
             <a href="javascript:void(0)" onclick="viewDetails('${p.id}')" class="post-card">
                 <div class="post-card-text">
@@ -171,7 +169,6 @@
         });
     }
 
-    // FIX: Unique ID se post search karna taaki galat post na khule
     window.viewDetails = (postId) => {
         const p = allPosts.find(item => item.id === postId);
         if(!p) return;
@@ -187,12 +184,13 @@
             <div style="font-size:12px; color:#777; margin-top:5px;">${p.date}</div>
             ${p.img ? `<img src="${p.img}" class="full-news-img">` : ''}
             <p class="full-news-desc">${p.content}</p>
+            
+            ${p.link ? `<div style="margin-top:15px; margin-bottom:5px;"><a href="${p.link}" target="_blank" style="display:inline-block; background:#007bff; color:#fff; padding:10px 20px; text-decoration:none; border-radius:6px; font-weight:bold; font-size:14px; text-align:center;">🔗 Visit Source / Link</a></div>` : ''}
+            
             ${tHTML}
             <button onclick="closeDetailsModal(true)" style="margin-top:20px; border:none; background:var(--red); color:#fff; padding:12px; width:100%; border-radius:6px; font-weight:bold; cursor:pointer; font-size:16px;">Close Article</button>
         `;
         document.getElementById('detailsModal').style.display = 'flex';
-        
-        // Push state taaki hardware back button track ho sake
         history.pushState({ modalOpen: true }, "");
     };
 
@@ -203,7 +201,6 @@
         }
     };
 
-    // Hardware back key dabaane par sirf modal close hoga
     window.addEventListener('popstate', (event) => {
         const modal = document.getElementById('detailsModal');
         if (modal && modal.style.display === 'flex') {
@@ -219,7 +216,7 @@
         const btn = document.getElementById('pubBtn');
         const tagsInput = document.getElementById('pTags').value;
         const tagsArray = tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag !== "");
-        const pLinkVal = document.getElementById('pLink').value.trim() || ""
+        const pLinkVal = document.getElementById('pLink').value.trim() || "";
     
         if(!t || !c || !file) return alert("Please fill everything!");
         btn.disabled = true; btn.innerText = "Compressing & Uploading...";
@@ -245,9 +242,8 @@
                         title: t, content: c, category: cat, img: base64,
                         tags: tagsArray, 
                         passCheck: "Admin@123",
-                        date: new Date().toLocaleString('en-IN', {day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit'})
+                        date: new Date().toLocaleString('en-IN', {day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit'}),
                         link: pLinkVal
-                        
                     });
                     alert("Khabar Publish Ho Gayi!");
                     location.reload();
@@ -281,3 +277,4 @@
     
 </body>
 </html>
+
