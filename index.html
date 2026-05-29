@@ -108,6 +108,8 @@
             <input type="file" id="pImg" accept="image/*">
             <textarea id="pDesc" rows="5" placeholder="Full Details..."></textarea>
             <input type="text" id="pTags" placeholder="Tags daalein (comma se separate karein: breaking, tech)">
+            <input type="url" id="pLink" placeholder="Link daalein (Optional)" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+            
             
             <button class="btn-pub" id="pubBtn" onclick="startPublish()">Publish Post</button>
         </div>
@@ -217,8 +219,8 @@
         const btn = document.getElementById('pubBtn');
         const tagsInput = document.getElementById('pTags').value;
         const tagsArray = tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag !== "");
-        
-
+        const pLinkVal = document.getElementById('pLink').value.trim() || ""
+    
         if(!t || !c || !file) return alert("Please fill everything!");
         btn.disabled = true; btn.innerText = "Compressing & Uploading...";
 
@@ -244,6 +246,8 @@
                         tags: tagsArray, 
                         passCheck: "Admin@123",
                         date: new Date().toLocaleString('en-IN', {day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit'})
+                        link: pLinkVal,
+                        
                     });
                     alert("Khabar Publish Ho Gayi!");
                     location.reload();
