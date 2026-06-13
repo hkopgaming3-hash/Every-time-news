@@ -9,7 +9,7 @@
         :root { --red: #ed1c24; --black: #1a1a1a; --gray: #f8f9fa; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Roboto', sans-serif; background: #fff; color: #333; line-height: 1.5; }
-        header { border-bottom: 3px solid var(--black); padding: 15px; text-align: center; position: sticky; top: 0; background: #fff; z-index: 100; }
+        header { border-bottom: 3px solid var(--black); padding: 12px 15px; position: sticky; top: 0; background: #fff; z-index: 100; }
         .logo { font-family: 'Lora', serif; font-size: 24px; font-weight: bold; text-transform: uppercase; }
         .logo span { color: var(--red); }
         .nav-bar { display: flex; overflow-x: auto; padding: 12px 5px; gap: 15px; border-bottom: 1px solid #eee; background: #fff; scrollbar-width: none; }
@@ -60,15 +60,15 @@
 <body>
 
 <header>
-    <div class="logo" style="display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 0 10px;">
-    <a href="javascript:void(0)" onclick="openModal()" style="font-size: 20px; text-decoration: none; color: #333; order: 1;">⚙️</a>
-    
-    <div style="display: flex; align-items: center; gap: 10px; order: 2; margin: 0 auto; transform: translateX(-15px);">
-        <img src="1000119673.png" alt="Logo" style="height: 40px; width: auto; object-fit: contain;">
-        EVERY TIME <span>NEWS</span>
+    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+        <!-- 3 Line Menu (Hamburger) Button Left Corner Me -->
+        <a href="javascript:void(0)" onclick="openModal()" style="font-size: 26px; text-decoration: none; color: #1a1a1a; font-weight: bold; padding: 5px; line-height: 1; order: 1;">&#9776;</a>
+        
+        <!-- Logo Text Center Me (Bina Kisi Broken Image Ke) -->
+        <div class="logo" style="order: 2; margin: 0 auto; transform: translateX(-15px); font-size: 22px;">
+            EVERY TIME <span>NEWS</span>
+        </div>
     </div>
-    </div>
-    
 </header>  
 
 <div class="nav-bar">
@@ -79,18 +79,21 @@
     <div class="nav-item" onclick="filterData('Stock', this)"><div class="icon-circle">📈</div><span>Stock</span></div>
 </div>
 
-<div class="main-container" id="newsFeed">
-    <p style="text-align:center; padding:50px;">loading...</p>
+<!-- AdSense Ad Code Outside of NewsFeed Container -->
+<div style="max-width: 600px; margin: auto; padding: 10px 0;">
     <ins class="adsbygoogle"
      style="display:block"
      data-ad-format="fluid"
      data-ad-layout-key="-gp-18+k-4c+g1"
      data-ad-client="ca-pub-1593220857123669"
      data-ad-slot="2190265826"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-    
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
+<div class="main-container" id="newsFeed">
+    <p style="text-align:center; padding:50px;">loading...</p>
 </div>
 
 <div id="detailsModal" class="modal"><div class="modal-content" id="detailsContent"></div></div>
@@ -287,4 +290,3 @@
     
 </body>
 </html>
-
