@@ -5,18 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Every Time News | Premium Portal</title>
     
-    <!-- Google Search Result me Logo (Favicon) ke liye tags -->
-    <link rel="icon" type="image/png" href="1000119673.png">
-    <link rel="apple-touch-icon" href="1000119673.png">
+    <link rel="icon" type="image/png" href="1000119873.png">
+    <link rel="apple-touch-icon" href="1000119873.png">
 
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght=700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --red: #ed1c24; --black: #1a1a1a; --gray: #f8f9fa; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Roboto', sans-serif; background: #fff; color: #333; line-height: 1.5; }
-        header { border-bottom: 3px solid var(--black); padding: 12px 15px; position: sticky; top: 0; background: #fff; z-index: 100; }
-        .logo { font-family: 'Lora', serif; font-size: 24px; font-weight: bold; text-transform: uppercase; }
-        .logo span { color: var(--red); }
+        header { border-bottom: 3px solid var(--black); padding: 10px 15px; position: sticky; top: 0; background: #fff; z-index: 100; }
+        
+        /* Flex wrapper to keep elements beautifully centered and aligned */
+        .header-container { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+        .logo-wrap { display: flex; align-items: center; gap: 8px; margin: 0 auto; transform: translateX(-15px); }
+        .logo-img { height: 35px; width: auto; object-fit: contain; display: block; }
+        
+        .logo-text { font-family: 'Lora', serif; font-size: 22px; font-weight: bold; text-transform: uppercase; color: var(--black); white-space: nowrap; }
+        .logo-text span { color: var(--red); }
+        
         .nav-bar { display: flex; overflow-x: auto; padding: 12px 5px; gap: 15px; border-bottom: 1px solid #eee; background: #fff; scrollbar-width: none; }
         .nav-bar::-webkit-scrollbar { display: none; }
         .nav-item { display: flex; flex-direction: column; align-items: center; min-width: 65px; cursor: pointer; transition: 0.3s; }
@@ -65,13 +71,12 @@
 <body>
 
 <header>
-    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-        <!-- 3 Line Menu (Hamburger) Button Left Corner Me -->
-        <a href="javascript:void(0)" onclick="openModal()" style="font-size: 26px; text-decoration: none; color: #1a1a1a; font-weight: bold; padding: 5px; line-height: 1; order: 1;">&#9776;</a>
+    <div class="header-container">
+        <a href="javascript:void(0)" onclick="openModal()" style="font-size: 26px; text-decoration: none; color: #1a1a1a; font-weight: bold; padding: 5px; line-height: 1;">&#9776;</a>
         
-        <!-- Logo Text Center Me (Bina Kisi Broken Image Ke) -->
-        <div class="logo" style="order: 2; margin: 0 auto; transform: translateX(-15px); font-size: 22px;">
-            EVERY TIME <span>NEWS</span>
+        <div class="logo-wrap">
+            <img src="1000119873.png" alt="Logo" class="logo-img">
+            <div class="logo-text">EVERY TIME <span>NEWS</span></div>
         </div>
     </div>
 </header>  
@@ -84,7 +89,6 @@
     <div class="nav-item" onclick="filterData('Stock', this)"><div class="icon-circle">📈</div><span>Stock</span></div>
 </div>
 
-<!-- AdSense Ad Code Outside of NewsFeed Container -->
 <div style="max-width: 600px; margin: auto; padding: 10px 0;">
     <ins class="adsbygoogle"
      style="display:block"
@@ -105,6 +109,7 @@
     
 <footer>
     <p>&copy; 2024 Every Time News</p>
+    <a href="javascript:void(0)" class="admin-btn" onclick="openModal()">Admin Login</a>
 </footer>
 
 <div id="adminModal" class="modal">
