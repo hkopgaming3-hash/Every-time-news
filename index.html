@@ -60,10 +60,15 @@
 <body>
 
 <header>
-    <div class="logo" style="display: flex; align-items: center; gap: 10px;">
-        <img src="1000119873.png" alt="Logo" style="height: 40px; width: auto; object-fit: contain;">
+    <div class="logo" style="display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 0 10px;">
+    <a href="javascript:void(0)" onclick="openModal()" style="font-size: 20px; text-decoration: none; color: #333; order: 1;">⚙️</a>
+    
+    <div style="display: flex; align-items: center; gap: 10px; order: 2; margin: 0 auto; transform: translateX(-15px);">
+        <img src="1000119673.png" alt="Logo" style="height: 40px; width: auto; object-fit: contain;">
         EVERY TIME <span>NEWS</span>
     </div>
+    </div>
+    
 </header>  
 
 <div class="nav-bar">
@@ -92,7 +97,6 @@
     
 <footer>
     <p>&copy; 2024 Every Time News</p>
-    <a href="javascript:void(0)" class="admin-btn" onclick="openModal()">Admin Login</a>
 </footer>
 
 <div id="adminModal" class="modal">
