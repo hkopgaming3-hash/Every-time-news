@@ -5,10 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Every Time News | Premium Portal</title>
     
+    <!-- =======================================================
+         GOOGLE ADSENSE VERIFICATION CODES (ADDING ALL METHODS)
+         ======================================================= -->
+    <!-- Method 1: AdSense HTML Code Snippet -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1593220857123669" crossorigin="anonymous"></script>
+
+    <!-- Method 2: AdSense Meta Tag Verification -->
+    <meta name="google-adsense-account" content="ca-pub-1593220857123669">
+
+    <!-- Note for Method 3 (ads.txt): 
+         "google.com, pub-1593220857123669, DIRECT, f08c47fec0942fa0" 
+         ko GitHub par ek alag se 'ads.txt' naam ki file bana kar usme daal dena.
+         Tab tak backup ke liye maine ise niche comment me bhi rakh diya hai. -->
+    <!-- ads.txt entry: google.com, pub-1593220857123669, DIRECT, f08c47fec0942fa0 -->
+    
+    <!-- Google Search Result Logo (Favicon) Setting -->
     <link rel="icon" type="image/png" href="1000119873.png">
+    <link rel="shortcut icon" href="1000119873.png" type="image/png">
     <link rel="apple-touch-icon" href="1000119873.png">
 
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght=700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght=700&family=Roboto:wght=400;700&display=swap" rel="stylesheet">
     <style>
         :root { --red: #ed1c24; --black: #1a1a1a; --gray: #f8f9fa; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -72,8 +89,10 @@
 
 <header>
     <div class="header-container">
+        <!-- 3 Line Menu (Hamburger) Button -->
         <a href="javascript:void(0)" onclick="openModal()" style="font-size: 26px; text-decoration: none; color: #1a1a1a; font-weight: bold; padding: 5px; line-height: 1;">&#9776;</a>
         
+        <!-- Logo Image + Text Perfectly Aligned in Center -->
         <div class="logo-wrap">
             <img src="1000119873.png" alt="Logo" class="logo-img">
             <div class="logo-text">EVERY TIME <span>NEWS</span></div>
@@ -89,18 +108,7 @@
     <div class="nav-item" onclick="filterData('Stock', this)"><div class="icon-circle">📈</div><span>Stock</span></div>
 </div>
 
-<div style="max-width: 600px; margin: auto; padding: 10px 0;">
-    <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-format="fluid"
-     data-ad-layout-key="-gp-18+k-4c+g1"
-     data-ad-client="ca-pub-1593220857123669"
-     data-ad-slot="2190265826"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-</div>
-
+<!-- Main Feed Area -->
 <div class="main-container" id="newsFeed">
     <p style="text-align:center; padding:50px;">loading...</p>
 </div>
@@ -207,9 +215,7 @@
             <div style="font-size:12px; color:#777; margin-top:5px;">${p.date}</div>
             ${p.img ? `<img src="${p.img}" class="full-news-img">` : ''}
             <p class="full-news-desc">${p.content}</p>
-            
             ${p.link ? `<div style="margin-top:15px; margin-bottom:5px;"><a href="${p.link}" target="_blank" style="display:inline-block; background:#007bff; color:#fff; padding:10px 20px; text-decoration:none; border-radius:6px; font-weight:bold; font-size:14px; text-align:center;">🔗 Visit Source / Link</a></div>` : ''}
-            
             ${tHTML}
             <button onclick="closeDetailsModal(true)" style="margin-top:20px; border:none; background:var(--red); color:#fff; padding:12px; width:100%; border-radius:6px; font-weight:bold; cursor:pointer; font-size:16px;">Close Article</button>
         `;
