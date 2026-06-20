@@ -6,9 +6,11 @@
     <title>Every Time News | Premium Portal</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1593220857123669" crossorigin="anonymous"></script>
     <meta name="google-adsense-account" content="ca-pub-1593220857123669">
-    <link rel="icon" type="image/png" href="1000119873.png">
-    <link rel="shortcut icon" href="1000119873.png" type="image/png">
-    <link rel="apple-touch-icon" href="1000119873.png">
+    
+    <!-- Logo updated here -->
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="shortcut icon" href="logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="logo.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght=700&family=Roboto:wght=400;700&display=swap" rel="stylesheet">
     <style>
@@ -77,9 +79,9 @@
         <!-- 3 Line Menu (Hamburger) Button -->
         <a href="javascript:void(0)" onclick="openModal()" style="font-size: 26px; text-decoration: none; color: #1a1a1a; font-weight: bold; padding: 5px; line-height: 1;">&#9776;</a>
         
-        <!-- Logo Image + Text Perfectly Aligned in Center -->
+        <!-- Logo Image + Text Perfectly Aligned in Center (Logo updated here) -->
         <div class="logo-wrap">
-            <img src="1000119873.png" alt="Logo" class="logo-img">
+            <img src="logo.png" alt="Logo" class="logo-img">
             <div class="logo-text">EVERY TIME <span>NEWS</span></div>
         </div>
     </div>
@@ -276,7 +278,7 @@
     };
 
     window.openModal = () => document.getElementById('adminModal').style.display = 'flex';
-    window.closeModal = () => document.getElementById('adminModal').style.display = 'none';
+    window.closeModal = () => document.getElementById('adminModal').style.none;
     window.doLogin = () => {
         if(document.getElementById('pass').value === "Admin@123") {
             document.getElementById('loginSection').style.display = 'none';
