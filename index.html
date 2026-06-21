@@ -16,6 +16,56 @@
         
         /* Flex wrapper to keep elements beautifully centered and aligned */
         .header-container { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+        /* Yeh styles tabhi chalenge jab sirf MOVIE select hoga */
+body.movie-mode {
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+}
+
+/* Movie select hone par poore newsfeed ko 2 column grid banana */
+body.movie-mode #newsFeed {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 15px !important;
+    padding: 15px !important;
+}
+
+/* Movie wale cards ko vertical poster look dena */
+body.movie-mode .post-card {
+    flex-direction: column !important;
+    background-color: #262626 !important;
+    color: #fff !important;
+    border-bottom: none !important;
+    border-radius: 8px !important;
+    margin: 0 !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3) !important;
+}
+
+body.movie-mode .post-img-box {
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+body.movie-mode .post-img {
+    width: 100% !important;
+    height: 220px !important; /* Poster jaisa khada (vertical) look dene ke liye */
+    object-fit: cover !important;
+    border-radius: 8px 8px 0 0 !important;
+}
+
+body.movie-mode .post-card-text {
+    padding: 10px !important;
+}
+
+body.movie-mode .post-title {
+    color: #fff !important;
+    font-size: 14px !important;
+}
+
+body.movie-mode .post-time {
+    color: #888 !important;
+}
+        
         .logo-wrap { display: flex; align-items: center; gap: 8px; margin: 0 auto; transform: translateX(-15px); }
         .logo-img { height: 35px; width: auto; object-fit: contain; display: block; }
         
@@ -268,12 +318,22 @@
             };
         };
     };
-
-    window.filterData = (c, el) => {
-        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-        el.classList.add('active');
-        render(c === 'All' ? allPosts : allPosts.filter(p => p.category === c));
-    };
+window.filterData = (c, el) => {
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+    
+    // Agar sirf Movie dabaya toh background black aur vertical grid layout on hoga
+    if (c === 'Movie') {
+        document.body.classList.add('movie-mode');
+    } else {
+        // Baaki koi bhi category par wapas normal white ho jayega
+        document.body.classList.remove('movie-mode');
+    }
+    
+    render(c === 'All' ? allPosts : allPosts.filter(p => p.category === c));
+};
+    
+    
 
     window.openModal = () => document.getElementById('adminModal').style.display = 'flex';
     window.closeModal = () => document.getElementById('adminModal').style.display = 'none';
